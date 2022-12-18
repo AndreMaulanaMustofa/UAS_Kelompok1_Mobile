@@ -1,7 +1,8 @@
-import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uas_kelompok1_mobile/item.dart';
 
 class BiodataPage extends StatelessWidget{
 
