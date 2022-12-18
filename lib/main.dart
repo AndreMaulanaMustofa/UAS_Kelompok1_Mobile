@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:uas_kelompok1_mobile/pages/biodata_page.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
@@ -15,3 +13,4 @@ void main() {
     },
   ));
 }
+
