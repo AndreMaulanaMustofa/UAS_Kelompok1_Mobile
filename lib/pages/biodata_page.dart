@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:uas_kelompok1_mobile/models/data.dart';
+import 'package:uas_kelompok1_mobile/models/item.dart';
 
 class BiodataPage extends StatelessWidget{
 
@@ -37,8 +37,22 @@ class _mybody extends State<myBody>{
 
   Gender _gender = Gender.male;
 
+  Item item;
+
+  TextEditingController nimController     = TextEditingController();
+  TextEditingController namaController    = TextEditingController();
+  TextEditingController alamatController  = TextEditingController();
+  TextEditingController kelaminController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    if (item != null){
+      nimController.text = item.nim.toString();
+      namaController.text = item.nama;
+      alamatController.text = item.alamat;
+      kelaminController.text = item.kelamin;
+    }
+
     return MaterialApp(
       home: Column(
         children: [
@@ -61,6 +75,7 @@ class _mybody extends State<myBody>{
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              controller: nimController,
             ),
             margin: EdgeInsets.only(
               left: 100,
@@ -73,6 +88,7 @@ class _mybody extends State<myBody>{
                 label: Text("Nama :"),
               ),
               keyboardType: TextInputType.name,
+              controller: namaController,
             ),
             margin: EdgeInsets.only(
               left: 100,
@@ -85,6 +101,7 @@ class _mybody extends State<myBody>{
                 label: Text("Alamat :")
               ),
               keyboardType: TextInputType.streetAddress,
+              controller: alamatController,
             ),
             margin: EdgeInsets.only(
               left: 100,
@@ -101,11 +118,12 @@ class _mybody extends State<myBody>{
                     groupValue: _gender,
                     onChanged: (Gender value) {
                       setState(() {
+                        _gender = kelaminController.text as Gender;
                         _gender = value;
                       });
                     },
                   ),
-                  contentPadding: EdgeInsets.only(left: 150),
+                  contentPadding: EdgeInsets.only(left: 150, top: 20, bottom: 20),
                 ),
               ),
               Expanded(
@@ -116,10 +134,12 @@ class _mybody extends State<myBody>{
                     groupValue: _gender,
                     onChanged: (Gender value) {
                       setState(() {
+                        _gender = kelaminController.text as Gender;
                         _gender = value;
                       });
                     },
                   ),
+                  contentPadding: EdgeInsets.only(left: 50, top: 20, bottom: 20),
                 ),
               ),
             ],
@@ -129,7 +149,11 @@ class _mybody extends State<myBody>{
               ElevatedButton(
                 onPressed: (() {
                   if (Item == null){
-                    Item = Item(NIM, nama, alamat, kelamin)
+                    item = Item(
+                      nimController.toString(), 
+                      namaController.text, 
+                      alamatController.text, 
+                      kelaminController.text);
                   }
                 }),
                 child: Text("Tambah Data"),
