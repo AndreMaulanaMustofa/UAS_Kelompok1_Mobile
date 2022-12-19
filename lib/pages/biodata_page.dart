@@ -1,8 +1,5 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:uas_kelompok1_mobile/item.dart';
 
 class BiodataPage extends StatelessWidget{
 
@@ -29,15 +26,15 @@ class BiodataPage extends StatelessWidget{
 }
 
 class myBody extends StatefulWidget{
-  const myBody({super.key});
-
   @override
   State<myBody> createState() => _mybody();
 }
 
+enum Gender { male, female }
+
 class _mybody extends State<myBody>{
 
-  String gender = "Male";
+  Gender? _gender = Gender.male;
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +91,48 @@ class _mybody extends State<myBody>{
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              Container(
-                child: Text("Masih mencari radio buttonnya", style: TextStyle(fontSize: 20),),
+            children: <Widget>[
+              Expanded(
+                child: ListTile(
+                  title: const Text("Male"),
+                  leading: Radio<Gender>(
+                    value: Gender.male,
+                    groupValue: _gender,
+                    onChanged: (Gender? value) {
+                      setState(() {
+                        _gender = value;
+                      });
+                    },
+                  ),
+                  contentPadding: EdgeInsets.only(left: 150),
+                ),
+              ),
+              Expanded(
+                child: ListTile(
+                  title: const Text("Female"),
+                  leading: Radio<Gender>(
+                    value: Gender.female,
+                    groupValue: _gender,
+                    onChanged: (Gender? value) {
+                      setState(() {
+                        _gender = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: (() {
+                  
+                }),
+                child: Text("Tambah Data"),
+                style: ButtonStyle(
+                  alignment: Alignment.center,
+                ),
               ),
             ],
           ),
