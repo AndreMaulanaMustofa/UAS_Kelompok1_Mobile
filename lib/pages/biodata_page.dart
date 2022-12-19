@@ -34,7 +34,7 @@ enum Gender { male, female }
 
 class _mybody extends State<myBody>{
 
-  Gender? _gender = Gender.male;
+  Gender _gender = Gender.male;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class _mybody extends State<myBody>{
                   leading: Radio<Gender>(
                     value: Gender.male,
                     groupValue: _gender,
-                    onChanged: (Gender? value) {
+                    onChanged: (Gender value) {
                       setState(() {
                         _gender = value;
                       });
@@ -113,7 +113,7 @@ class _mybody extends State<myBody>{
                   leading: Radio<Gender>(
                     value: Gender.female,
                     groupValue: _gender,
-                    onChanged: (Gender? value) {
+                    onChanged: (Gender value) {
                       setState(() {
                         _gender = value;
                       });
