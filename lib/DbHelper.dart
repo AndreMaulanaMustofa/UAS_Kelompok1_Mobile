@@ -29,6 +29,7 @@ class DbHelper {
     nim INTEGER PRIMARY KEY AUTOINCREMENT,
     nama TEXT,
     alamat TEXT
+    kelamin TEXT
   )
 ''');
   }
