@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-import 'item.dart';
+import 'models/item.dart';
 
 class DbHelper {
   static DbHelper _dbHelper;
