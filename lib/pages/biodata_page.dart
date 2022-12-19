@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:uas_kelompok1_mobile/models/data.dart';
 
 class BiodataPage extends StatelessWidget{
 
@@ -27,8 +26,6 @@ class BiodataPage extends StatelessWidget{
 }
 
 class myBody extends StatefulWidget{
-  const myBody({super.key});
-
   @override
   State<myBody> createState() => _mybody();
 }
