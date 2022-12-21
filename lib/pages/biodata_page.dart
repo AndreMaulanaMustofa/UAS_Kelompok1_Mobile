@@ -147,14 +147,13 @@ class _mybody extends State<myBody>{
           Column(
             children: [
               ElevatedButton(
-                onPressed: (() {
-                  if (Item == null){
+                onPressed: (() { 
                     item = Item(
                       nimController.toString(), 
                       namaController.text, 
                       alamatController.text, 
                       kelaminController.text);
-                  }
+                  
                 }),
                 child: Text("Tambah Data"),
                 style: ButtonStyle(
