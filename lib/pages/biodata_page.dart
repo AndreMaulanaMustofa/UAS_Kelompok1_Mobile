@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
 
-class BiodataPage extends StatelessWidget{
-
+class BiodataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,29 +11,22 @@ class BiodataPage extends StatelessWidget{
         child: Scaffold(
           appBar: AppBar(
             title: Text("Biodata"),
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "BIODATA"),
-                Tab(text: "LIST DATA"),
-            ],
           ),
-        ),
-        body: myBody(),
+          body: myBody(),
         ),
       ),
     );
   }
 }
 
-class myBody extends StatefulWidget{
+class myBody extends StatefulWidget {
   @override
   State<myBody> createState() => _mybody();
 }
 
 enum Gender { male, female }
 
-class _mybody extends State<myBody>{
-
+class _mybody extends State<myBody> {
   Gender _gender = Gender.male;
 
   Item item;
@@ -65,8 +57,8 @@ class _mybody extends State<myBody>{
                 color: Colors.black,
               ),
             ),
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 20),
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(top: 20),
           ),
           Container(
             child: TextField(
@@ -97,9 +89,7 @@ class _mybody extends State<myBody>{
           ),
           Container(
             child: TextField(
-              decoration: InputDecoration(
-                label: Text("Alamat :")
-              ),
+              decoration: InputDecoration(label: Text("Alamat :")),
               keyboardType: TextInputType.streetAddress,
               controller: alamatController,
             ),
@@ -147,13 +137,28 @@ class _mybody extends State<myBody>{
           Column(
             children: [
               ElevatedButton(
+<<<<<<< HEAD
                 onPressed: (() { 
+=======
+                onPressed: (() {
+<<<<<<< HEAD
+                  // if (Item == null){
+                  //   Item = Item(NIM, nama, alamat, kelamin)
+                  // }
+=======
+                  if (Item == null){
+>>>>>>> 2a2dee3217d6e36e6f523e16bfc0a26c5b99aa38
                     item = Item(
                       nimController.toString(), 
                       namaController.text, 
                       alamatController.text, 
                       kelaminController.text);
+<<<<<<< HEAD
                   
+=======
+                  }
+>>>>>>> 983ff693e03e7ccf48dabd3cb32d3634df1cd6d3
+>>>>>>> 2a2dee3217d6e36e6f523e16bfc0a26c5b99aa38
                 }),
                 child: Text("Tambah Data"),
                 style: ButtonStyle(
