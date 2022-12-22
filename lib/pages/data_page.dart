@@ -1,4 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:uas_kelompok1_mobile/DbHelper.dart';
+import 'package:uas_kelompok1_mobile/models/item.dart';
 
 class DataPage extends StatefulWidget {
   @override
@@ -6,27 +11,42 @@ class DataPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<DataPage> {
-  var lists = List<String>.generate(11, (index) => "List : $index");
+
+  Item item;
+
+  List<Item> itemList;
+
+  int count = 0;
+
+  DbHelper dbHelper = DbHelper();
+  
   @override
   Widget build(BuildContext context) {
+    if(itemList == null){
+      itemList = List<Item>();
+    }
+    TextStyle textStyle = Theme.of(context).textTheme.subtitle2;
     return Scaffold(
       appBar: AppBar(
         title: Text('List data mahasiswa'),
       ),
       body: ListView.builder(
-        itemCount: lists.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(lists[index]),
-            trailing: Container(
-              width: 60,
-              child: TextButton(
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  showSnackBar(context, index);
+        itemCount: count,
+        itemBuilder: (BuildContext context, int index){
+          return Card(
+            color: Colors.white,
+            elevation: 2.0,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.red,
+                child: Icon(Icons.account_circle),
+              ),
+              title: Text(this.itemList[index].nama, style: textStyle,),
+              subtitle: Text(this.itemList[index].kelamin),
+              trailing: GestureDetector(
+                child: Icon(Icons.delete),
+                onTap: (){
+                  deleteItem(itemList[index]);
                 },
               ),
             ),
@@ -36,21 +56,23 @@ class _MyHomePageState extends State<DataPage> {
     );
   }
 
-  void showSnackBar(BuildContext context, int index) {
-    var deletedRecord = lists[index];
-    setState(() {
-      lists.removeAt(index);
+  void updateListView(){
+    final Future<Database> dbFuture = dbHelper.initDb();
+    dbFuture.then((database){
+      Future<List<Item>> itemListFuture = dbHelper.getItemList();
+      itemListFuture.then((itemList){
+        setState(() {
+          this.itemList = itemList;
+          this.count = itemList.length;
+        });
+      });
     });
-    SnackBar snackBar = SnackBar(
-      content: Text('Deleted $deletedRecord'),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () {
-          setState(() {
-            lists.insert(index, deletedRecord);
-          });
-        },
-      ),
-    );
+  }
+
+  void deleteItem(Item item) async {
+    int result = await dbHelper.delete(item.nim);
+    if(result > 0){
+      updateListView();
+    }
   }
 }
