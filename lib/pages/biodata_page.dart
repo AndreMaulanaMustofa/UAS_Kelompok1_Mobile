@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
-import 'package:uas_kelompok1_mobile/main.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
 class BiodataPage extends StatelessWidget {
