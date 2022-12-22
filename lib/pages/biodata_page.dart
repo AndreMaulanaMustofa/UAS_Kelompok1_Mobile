@@ -162,13 +162,11 @@ class _mybody extends State<myBody> {
                 }),
                 child: Text("Tambah Data"),
                 style: ButtonStyle(
-                  alignment: Alignment.center,
-                ),
+                  
               ),
-            ],
           ),
         ],
-      ),
+      )
     );
   }
 }
