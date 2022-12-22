@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Item{
-  String _nim;
+  int _nim;
   String _nama;
   String _alamat;
   String _kelamin;
 
-String get nim => this._nim;
-set nim (String value) => this._nim = value;
+int get nim => this._nim;
+set nim (int value) => this._nim = value;
 
 String get nama => this._nama;
-set name(String value) => this._nama = value;
+set nama(String value) => this._nama = value;
 
 String get alamat => this._alamat;
 set alamat (String value) => this._alamat = value;

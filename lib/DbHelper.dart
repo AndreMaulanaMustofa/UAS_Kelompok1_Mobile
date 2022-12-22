@@ -8,6 +8,7 @@ import 'models/item.dart';
 class DbHelper {
   static DbHelper _dbHelper;
   static Database _database;
+  
   DbHelper._createObject();
 
   Future<Database> initDb() async{
@@ -36,20 +37,20 @@ class DbHelper {
 
   //select database 
   Future<List<Map<String, dynamic>>> select() async{
-    Database db = await this.initDb();
+    Database db = await this.database;
     var mapList = await db.query('item', orderBy: 'nama');
     return mapList;
   }
   //create database
   Future<int> insert(Item object) async{
-    Database db = await this.initDb();
+    Database db = await this.database;
     int count = await db.insert('item', object.toMap());
     return count;
   }
 
   //update database
   Future<int> update(Item object) async{
-    Database db = await this.initDb();
+    Database db = await this.database;
     int count = await db.update('item', object.toMap(),
                             where: 'nim=?',
                             whereArgs: [object.nim]);
@@ -58,7 +59,7 @@ class DbHelper {
 
   //delete database
   Future<int> delete(int nim) async{
-    Database db = await this.initDb();
+    Database db = await this.database;
     int count = await db.delete('item', 
               where: 'nim=?',
               whereArgs: [nim]);

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
+import 'package:uas_kelompok1_mobile/main.dart';
+import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
 class BiodataPage extends StatelessWidget {
+  Item item;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,7 +17,7 @@ class BiodataPage extends StatelessWidget {
           appBar: AppBar(
             title: Text("Biodata"),
           ),
-          body: myBody(),
+          body: myBody(this.item),
         ),
       ),
     );
@@ -20,8 +25,12 @@ class BiodataPage extends StatelessWidget {
 }
 
 class myBody extends StatefulWidget {
+  final Item item;
+
+  myBody(this.item);
+
   @override
-  State<myBody> createState() => _mybody();
+  State<myBody> createState() => _mybody(this.item);
 }
 
 enum Gender { male, female }
@@ -31,20 +40,17 @@ class _mybody extends State<myBody> {
 
   Item item;
 
-  TextEditingController nimController     = TextEditingController();
-  TextEditingController namaController    = TextEditingController();
-  TextEditingController alamatController  = TextEditingController();
-  TextEditingController kelaminController = TextEditingController();
+  _mybody(this.item);
+
+  DbHelper dbHelper = DbHelper();
+  
+  final nimController     = TextEditingController();
+  final namaController    = TextEditingController();
+  final alamatController  = TextEditingController();
+  final kelaminController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    if (item != null){
-      nimController.text = item.nim.toString();
-      namaController.text = item.nama;
-      alamatController.text = item.alamat;
-      kelaminController.text = item.kelamin;
-    }
-
+  Widget build(BuildContext context) {  
     return MaterialApp(
       home: Column(
         children: [
@@ -63,7 +69,7 @@ class _mybody extends State<myBody> {
           Container(
             child: TextField(
               decoration: InputDecoration(
-                label: Text("NIM :"),
+                label: Text("NIM : "),
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -108,9 +114,9 @@ class _mybody extends State<myBody> {
                     groupValue: _gender,
                     onChanged: (Gender value) {
                       setState(() {
-                        _gender = kelaminController.text as Gender;
                         _gender = value;
                       });
+                        _gender = kelaminController.text as Gender;
                     },
                   ),
                   contentPadding: EdgeInsets.only(left: 150, top: 20, bottom: 20),
@@ -124,9 +130,9 @@ class _mybody extends State<myBody> {
                     groupValue: _gender,
                     onChanged: (Gender value) {
                       setState(() {
-                        _gender = kelaminController.text as Gender;
                         _gender = value;
                       });
+                        _gender = kelaminController.text as Gender;
                     },
                   ),
                   contentPadding: EdgeInsets.only(left: 50, top: 20, bottom: 20),
@@ -137,21 +143,23 @@ class _mybody extends State<myBody> {
           Column(
             children: [
               ElevatedButton(
-                onPressed: (() {
-<<<<<<< HEAD
-                  // if (Item == null){
-                  //   Item = Item(NIM, nama, alamat, kelamin)
-                  // }
-=======
-                  if (Item == null){
-                    item = Item(
-                      nimController.toString(), 
-                      namaController.text, 
-                      alamatController.text, 
-                      kelaminController.text);
+                onPressed: () {
+                  item = Item(
+                    int.parse(nimController.text),
+                    namaController.text,
+                    alamatController.text,
+                    kelaminController.text
+                  );
+                  if(item != null){
+                    addItem(item);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DataPage(),
+                      ),
+                    );
                   }
->>>>>>> 983ff693e03e7ccf48dabd3cb32d3634df1cd6d3
-                }),
+                },
                 child: Text("Tambah Data"),
                 style: ButtonStyle(
                   alignment: Alignment.center,
@@ -163,4 +171,35 @@ class _mybody extends State<myBody> {
       ),
     );
   }
+  
+  void addItem(Item item) async {
+    DataPage datapage = DataPage();
+    int result = await dbHelper.insert(item);
+    if (result > 0){
+      showAlertDialog(context);
+    }
+  }
+}
+
+showAlertDialog(BuildContext context) {
+  Item item;
+  Widget okButton = MaterialButton(
+    child: Text("OK"),
+    onPressed: () { },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: Text("Success"),
+    content: Text("Data Telah di Tambahkan"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
