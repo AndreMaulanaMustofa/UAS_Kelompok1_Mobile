@@ -1,13 +1,18 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/biodata_page.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 import 'package:uas_kelompok1_mobile/pages/detail_page.dart';
+import 'package:uas_kelompok1_mobile/pages/home_page.dart';
 
 void main(){
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/' :(context) => MyApp(),
+      '/' :(context) => homePage(),
+      '/home' :(context) => MyApp(),
       '/data' :(context) => DataPage(),
       '/detail' :(context) => DetailPage(),
     },
