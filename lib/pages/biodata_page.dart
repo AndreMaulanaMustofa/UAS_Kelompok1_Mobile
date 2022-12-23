@@ -5,7 +5,6 @@ import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
 class BiodataPage extends StatelessWidget {
-  Item item;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class BiodataPage extends StatelessWidget {
           appBar: AppBar(
             title: Text("Biodata"),
           ),
-          body: myBody(this.item),
+          body: myBody(),
         ),
       ),
     );
@@ -24,12 +23,8 @@ class BiodataPage extends StatelessWidget {
 }
 
 class myBody extends StatefulWidget {
-  final Item item;
-
-  myBody(this.item);
-
   @override
-  State<myBody> createState() => _mybody(this.item);
+  State<myBody> createState() => _mybody();
 }
 
 enum Gender { male, female }
@@ -38,8 +33,6 @@ class _mybody extends State<myBody> {
   Gender _gender = Gender.male;
 
   Item item;
-
-  _mybody(this.item);
 
   DbHelper dbHelper = DbHelper();
   
@@ -172,7 +165,6 @@ class _mybody extends State<myBody> {
   }
   
   void addItem(Item item) async {
-    DataPage datapage = DataPage();
     int result = await dbHelper.insert(item);
     if (result > 0){
       showAlertDialog(context);
