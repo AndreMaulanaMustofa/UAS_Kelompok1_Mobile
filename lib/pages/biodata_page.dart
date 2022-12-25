@@ -39,7 +39,6 @@ class _mybody extends State<myBody> {
   final nimController     = TextEditingController();
   final namaController    = TextEditingController();
   final alamatController  = TextEditingController();
-  final kelaminController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {  
@@ -108,7 +107,6 @@ class _mybody extends State<myBody> {
                       setState(() {
                         _gender = value;
                       });
-                        _gender = kelaminController.text as Gender;
                     },
                   ),
                   contentPadding: EdgeInsets.only(left: 150, top: 20, bottom: 20),
@@ -124,7 +122,6 @@ class _mybody extends State<myBody> {
                       setState(() {
                         _gender = value;
                       });
-                        _gender = kelaminController.text as Gender;
                     },
                   ),
                   contentPadding: EdgeInsets.only(left: 50, top: 20, bottom: 20),
@@ -136,11 +133,19 @@ class _mybody extends State<myBody> {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  var gender = _gender.toString();
+
+                  if(gender == "Gender.male"){
+                    gender = "male";
+                  }else{
+                    gender = "female";
+                  }
+
                   item = Item(
                     int.parse(nimController.text),
                     namaController.text,
                     alamatController.text,
-                    kelaminController.text
+                    gender
                   );
                   if(item != null){
                     addItem(item);
