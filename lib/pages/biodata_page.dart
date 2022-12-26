@@ -5,7 +5,6 @@ import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
 class BiodataPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,16 +33,16 @@ class _mybody extends State<myBody> {
 
   Item item;
 
-  DbHelper dbHelper = DbHelper();
-  
-  final nimController     = TextEditingController();
-  final namaController    = TextEditingController();
-  final alamatController  = TextEditingController();
+  // DbHelper dbHelper = DbHelper();
+
+  final nimController = TextEditingController();
+  final namaController = TextEditingController();
+  final alamatController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {  
-    return MaterialApp(
-      home: Column(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
         children: [
           Container(
             child: Text(
@@ -98,33 +97,31 @@ class _mybody extends State<myBody> {
           Row(
             children: <Widget>[
               Expanded(
-                child: ListTile(
+                child: RadioListTile(
                   title: const Text("Male"),
-                  leading: Radio<Gender>(
-                    value: Gender.male,
-                    groupValue: _gender,
-                    onChanged: (Gender value) {
-                      setState(() {
-                        _gender = value;
-                      });
-                    },
-                  ),
-                  contentPadding: EdgeInsets.only(left: 150, top: 20, bottom: 20),
+                  value: Gender.male,
+                  groupValue: _gender,
+                  onChanged: (Gender value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  contentPadding:
+                      EdgeInsets.only(left: 10, top: 20, bottom: 20),
                 ),
               ),
               Expanded(
-                child: ListTile(
+                child: RadioListTile(
                   title: const Text("Female"),
-                  leading: Radio<Gender>(
-                    value: Gender.female,
-                    groupValue: _gender,
-                    onChanged: (Gender value) {
-                      setState(() {
-                        _gender = value;
-                      });
-                    },
-                  ),
-                  contentPadding: EdgeInsets.only(left: 50, top: 20, bottom: 20),
+                  value: Gender.female,
+                  groupValue: _gender,
+                  onChanged: (Gender value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                  contentPadding:
+                      EdgeInsets.only(top: 20, bottom: 20),
                 ),
               ),
             ],
@@ -132,23 +129,21 @@ class _mybody extends State<myBody> {
           Column(
             children: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   var gender = _gender.toString();
 
-                  if(gender == "Gender.male"){
+                  if (gender == "Gender.male") {
                     gender = "male";
-                  }else{
+                  } else {
                     gender = "female";
                   }
 
-                  item = Item(
-                    int.parse(nimController.text),
-                    namaController.text,
-                    alamatController.text,
-                    gender
-                  );
-                  if(item != null){
-                    addItem(item);
+                  item = Item(int.parse(nimController.text),
+                      namaController.text, alamatController.text, gender);
+                  if (item != null) {
+                    print('goto here');
+                    await addItem(item);
+                    if (!mounted) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -168,9 +163,11 @@ class _mybody extends State<myBody> {
       ),
     );
   }
-  
-  void addItem(Item item) async {
-    int result = await dbHelper.insert(item);
+
+  Future<void> addItem(Item item) async {
+    print('goto here2');
+    int result = await DbHelper.insert(item);
+    if (!mounted) return;
     if (result > 0){
       showAlertDialog(context);
     }
@@ -181,7 +178,7 @@ showAlertDialog(BuildContext context) {
   Item item;
   Widget okButton = MaterialButton(
     child: Text("OK"),
-    onPressed: () { },
+    onPressed: () {},
   );
 
   AlertDialog alert = AlertDialog(

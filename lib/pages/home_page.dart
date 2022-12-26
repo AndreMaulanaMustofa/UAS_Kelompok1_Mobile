@@ -34,7 +34,7 @@ class myButton extends StatefulWidget{
 
 class _myButton extends State<myButton>{
   
-  DbHelper dbHelper = DbHelper();
+  // DbHelper dbHelper = DbHelper();
 
   int count = 0;
   
@@ -70,7 +70,7 @@ class _myButton extends State<myButton>{
   }
 
   void addItem(Item item) async {
-    int result = await dbHelper.insert(item);
+    int result = await DbHelper.insert(item);
     if (result > 0) {
       Navigator.pushNamed(context, '/data');
     }

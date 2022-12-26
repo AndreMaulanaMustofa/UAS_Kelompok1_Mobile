@@ -16,7 +16,7 @@ class _MyHomePageState extends State<DataPage> {
 
   int count = 0;
 
-  DbHelper dbHelper = DbHelper();
+  // DbHelper dbHelper = DbHelper();
   
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,9 @@ class _MyHomePageState extends State<DataPage> {
   }
 
   void updateListView(){
-    final Future<Database> dbFuture = dbHelper.initDb();
+    final Future<Database> dbFuture = DbHelper.initDb();
     dbFuture.then((database){
-      Future<List<Item>> itemListFuture = dbHelper.getItemList();
+      Future<List<Item>> itemListFuture = DbHelper.getItemList();
       itemListFuture.then((itemList){
         setState(() {
           this.itemList = itemList;
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<DataPage> {
   }
 
   void deleteItem(Item item) async {
-    int result = await dbHelper.delete(item.nim);
+    int result = await DbHelper.delete(item.nim);
     if(result > 0){
       updateListView();
     }
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<DataPage> {
   }
 
   void editItem(Item item) async {
-    int result = await dbHelper.update(item);
+    int result = await DbHelper.update(item);
     if(result > 0){
       updateListView();
     }
