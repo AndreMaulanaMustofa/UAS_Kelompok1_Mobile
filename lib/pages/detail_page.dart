@@ -4,8 +4,7 @@ import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
-class DetailPage extends StatelessWidget{
-
+class DetailPage extends StatelessWidget {
   Item item;
 
   @override
@@ -20,19 +19,19 @@ class DetailPage extends StatelessWidget{
     );
   }
 }
-class myBody extends StatefulWidget{
+
+class myBody extends StatefulWidget {
   @override
   State<myBody> createState() => _myBody();
 }
 
-enum Gender { male , female}
+enum Gender { male, female }
 
 final nimController = TextEditingController();
 final namaController = TextEditingController();
 final alamatController = TextEditingController();
 
-class _myBody extends State<myBody>{
-
+class _myBody extends State<myBody> {
   Item item;
 
   Gender _gender = Gender.male;
@@ -72,6 +71,10 @@ class _myBody extends State<myBody>{
           ),
           Container(
             child: TextField(
+              onChanged: (value) {
+                debugPrint('Something changed in Description Text Field');
+                updateName();
+              },
               decoration: InputDecoration(
                 label: Text("Nama :"),
               ),
@@ -120,8 +123,7 @@ class _myBody extends State<myBody>{
                       _gender = value;
                     });
                   },
-                  contentPadding:
-                      EdgeInsets.only(top: 20, bottom: 20),
+                  contentPadding: EdgeInsets.only(top: 20, bottom: 20),
                 ),
               ),
             ],
@@ -152,7 +154,7 @@ class _myBody extends State<myBody>{
                     );
                   }
                 },
-                child: Text("Tambah Data"),
+                child: Text("Update biodata"),
                 style: ButtonStyle(
                   alignment: Alignment.center,
                 ),
@@ -163,13 +165,23 @@ class _myBody extends State<myBody>{
       ),
     );
   }
+
   Future<void> editItem(Item item) async {
     print('goto here2');
     int result = await DbHelper.update(item);
     if (!mounted) return;
     if (result > 0) {
       showAlertDialog(context);
-    } 
+    }
+  }
+
+  // Update the description of Note object
+  void updateName() {
+    item.nama = namaController.text;
+  }
+
+  void updateAlamat() {
+    item.alamat = alamatController.text;
   }
 }
 

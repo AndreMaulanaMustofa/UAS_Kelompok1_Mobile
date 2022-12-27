@@ -5,6 +5,7 @@ import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/biodata_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uas_kelompok1_mobile/pages/detail_page.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({
@@ -29,10 +30,20 @@ class MyHomePageState extends State<DataPage> {
     itemList = await DbHelper.getItemList();
   }
 
-  Future<void> _delete(int id) async {
-    print(id);
-    await DbHelper.delete(id);
+  Future delete(int nim) async {
+    await DbHelper.delete(nim);
+    setState(() {});
   }
+
+  
+  // void navigateToDetail(Item item) async {
+  //   bool result =
+  //       await Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //     return DetailPage(item);
+  //   }));
+
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,32 +56,27 @@ class MyHomePageState extends State<DataPage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                leading: IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: (() {}),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: (() {
-                    Fluttertoast.showToast(
-                      msg: "Success Delete",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.white,
-                      textColor: Colors.black,
-                    );
-                    // _delete(_biodata[index].id);
+                  leading: IconButton(
+                    icon: Icon(Icons.person),
+                    onPressed: (() {}),
+                  ),
+                  trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: (() => delete(itemList[index].nim))),
+                  title: Text(itemList[index].nama),
+                  subtitle: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        children: [
+                          Text('NIM : ${itemList[index].nim}'),
+                        ],
+                      )),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => DetailPage())));
                   }),
-                ),
-                title: Text(itemList[index].nama),
-                subtitle: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      children: [
-                        Text('NIM : ${itemList[index].nim}'),
-                      ],
-                    )),
-              ),
             );
           },
         );
