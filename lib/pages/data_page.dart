@@ -5,7 +5,7 @@ import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/biodata_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:uas_kelompok1_mobile/pages/detail_page.dart';
+import 'package:uas_kelompok1_mobile/pages/detail_data.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({
@@ -38,7 +38,7 @@ class MyHomePageState extends State<DataPage> {
   void navigateToDetail(Item item) async {
     bool result =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return DetailPage(item);
+      return detailData(item);
     }));
   }
 

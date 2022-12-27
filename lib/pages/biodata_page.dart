@@ -107,7 +107,7 @@ class _mybody extends State<myBody> {
                     });
                   },
                   contentPadding:
-                      EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                      EdgeInsets.only(left: 60, top: 20, bottom: 20),
                 ),
               ),
               Expanded(
