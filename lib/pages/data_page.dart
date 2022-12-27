@@ -35,15 +35,12 @@ class MyHomePageState extends State<DataPage> {
     setState(() {});
   }
 
-  
-  // void navigateToDetail(Item item) async {
-  //   bool result =
-  //       await Navigator.push(context, MaterialPageRoute(builder: (context) {
-  //     return DetailPage(item);
-  //   }));
-
-  // }
-
+  void navigateToDetail(Item item) async {
+    bool result =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return DetailPage(item);
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +69,8 @@ class MyHomePageState extends State<DataPage> {
                         ],
                       )),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => DetailPage())));
+                    debugPrint("ListTile Tapped");
+                    navigateToDetail(this.itemList[index]);
                   }),
             );
           },

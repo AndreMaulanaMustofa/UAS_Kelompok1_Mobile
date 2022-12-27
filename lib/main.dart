@@ -5,15 +5,18 @@ import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 import 'package:uas_kelompok1_mobile/pages/detail_page.dart';
 import 'package:uas_kelompok1_mobile/pages/home_page.dart';
 
-void main(){
+void main() {
   runApp(MaterialApp(
+    
     initialRoute: '/',
+    
     routes: {
-      '/' :(context) => homePage(),
-      '/home' :(context) => MyApp(),
-      '/data' :(context) => DataPage(),
-      '/detail' :(context) => DetailPage(),
+      
+      '/': (context) => homePage(),
+      '/home': (context) => MyApp(),
+      '/data': (context) => DataPage(),
     },
+    
   ));
 }
 

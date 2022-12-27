@@ -4,25 +4,16 @@ import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
 import 'package:uas_kelompok1_mobile/pages/data_page.dart';
 
-class DetailPage extends StatelessWidget {
-  Item item;
+class DetailPage extends StatefulWidget {
+  final String appBarTitle = "Detail page";
+  final Item item;
+
+  DetailPage(this.item);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Detail Page"),
-        ),
-        body: myBody(),
-      ),
-    );
+  State<StatefulWidget> createState() {
+    return DetailPageState(this.item);
   }
-}
-
-class myBody extends StatefulWidget {
-  @override
-  State<myBody> createState() => _myBody();
 }
 
 enum Gender { male, female }
@@ -31,13 +22,13 @@ final nimController = TextEditingController();
 final namaController = TextEditingController();
 final alamatController = TextEditingController();
 
-class _myBody extends State<myBody> {
+class DetailPageState extends State<DetailPage> {
   Item item;
 
   Gender _gender = Gender.male;
 
   DbHelper dbHelper;
-
+  DetailPageState(this.item);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +48,16 @@ class _myBody extends State<myBody> {
           ),
           Container(
             child: TextField(
+              onChanged: (value) {
+                debugPrint('Something changed in Description Text Field');
+                updateNim();
+              },
+              controller: nimController,
               decoration: InputDecoration(
                 label: Text("NIM : "),
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              controller: nimController,
             ),
             margin: EdgeInsets.only(
               left: 100,
@@ -88,6 +83,10 @@ class _myBody extends State<myBody> {
           ),
           Container(
             child: TextField(
+              onChanged: (value) {
+                debugPrint('Something changed in Title Text Field');
+                updateAlamat();
+              },
               decoration: InputDecoration(label: Text("Alamat :")),
               keyboardType: TextInputType.streetAddress,
               controller: alamatController,
@@ -154,9 +153,17 @@ class _myBody extends State<myBody> {
                     );
                   }
                 },
-                child: Text("Update biodata"),
-                style: ButtonStyle(
-                  alignment: Alignment.center,
+                child: ElevatedButton(
+                  child: Text(
+                    'Save',
+                    textScaleFactor: 1.5,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      debugPrint("Save button clicked");
+                      _save();
+                    });
+                  },
                 ),
               ),
             ],
@@ -178,6 +185,24 @@ class _myBody extends State<myBody> {
   // Update the description of Note object
   void updateName() {
     item.nama = namaController.text;
+  }
+
+  // Save data to database
+  void _save() async {
+    int result;
+    if (item.nim != null) {
+      // Case 1: Update operation
+      result = await DbHelper.update(item);
+    } else {
+      // Case 2: Insert Operation
+      // result = await helper.insertNote(note);
+    }
+  }
+
+  void updateNim() {
+    int number = item.nim;
+    String number2 = number.toString();
+    number2 = nimController.text;
   }
 
   void updateAlamat() {
