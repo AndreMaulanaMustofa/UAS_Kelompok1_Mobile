@@ -1,107 +1,80 @@
 import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:uas_kelompok1_mobile/DbHelper.dart';
 import 'package:uas_kelompok1_mobile/models/item.dart';
-import 'package:uas_kelompok1_mobile/pages/detail_page.dart';
+import 'package:uas_kelompok1_mobile/pages/biodata_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DataPage extends StatefulWidget {
+  const DataPage({
+    Key key,
+    this.id,
+    this.nim,
+    this.nama,
+  }) : super(key: key);
+
+  final int id;
+  final String nim;
+  final String nama;
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<DataPage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<DataPage> {
-  List<Item> itemList;
+class MyHomePageState extends State<DataPage> {
+  List<Item> itemList = [];
 
-  int count = 0;
+  Future<void> _getBiodata() async {
+    itemList = await DbHelper.getItemList();
+  }
 
-  // DbHelper dbHelper = DbHelper();
-  
+  Future<void> _delete(int id) async {
+    print(id);
+    await DbHelper.delete(id);
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-    if(itemList == null){
-      itemList = List<Item>();
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('List data mahasiswa'),
-      ),
-      body: createListView(),
-    );
-  }
-
-  void updateListView(){
-    final Future<Database> dbFuture = DbHelper.initDb();
-    dbFuture.then((database){
-      Future<List<Item>> itemListFuture = DbHelper.getItemList();
-      itemListFuture.then((itemList){
-        setState(() {
-          this.itemList = itemList;
-          this.count = itemList.length;
-        });
-      });
-    });
-  }
-
-  void deleteItem(Item item) async {
-    int result = await DbHelper.delete(item.nim);
-    if(result > 0){
-      updateListView();
-    }
-  }
-  
-  ListView createListView() {
-  TextStyle textStyle = Theme.of(context).textTheme.subtitle1;
-  return ListView.builder(
-      itemCount: count,
-      itemBuilder: (BuildContext context, int index){
-        return Card(
-          color: Colors.white,
-          elevation: 2.0,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.red,
-              child: Icon(Icons.account_circle),
-            ),
-            title: Text(this.itemList[index].nama, style: textStyle,),
-            subtitle: Text(this.itemList[index].kelamin),
-            trailing: GestureDetector(
-              child: Icon(Icons.delete),
-              onTap: (){
-                deleteItem(itemList[index]);
-              },
-            ),
-            onTap: () async {
-              var item = await navigateToDetail(context, this.itemList[index]);
-              if(item != null){
-                editItem(item);
-              }
-            },
-          ),
+    return Expanded(
+        child: FutureBuilder(
+      future: _getBiodata(),
+      builder: (context, snapshot) {
+        return ListView.builder(
+          itemCount: itemList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: (() {}),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: (() {
+                    Fluttertoast.showToast(
+                      msg: "Success Delete",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.white,
+                      textColor: Colors.black,
+                    );
+                    // _delete(_biodata[index].id);
+                  }),
+                ),
+                title: Text(itemList[index].nama),
+                subtitle: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      children: [
+                        Text('NIM : ${itemList[index].nim}'),
+                      ],
+                    )),
+              ),
+            );
+          },
         );
       },
-    );
-  }
-  
-  Future<Item> navigateToDetail(BuildContext context, Item item) async {
-    var result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return DetailPage();
-        }
-      ),
-    );
-    return result;
-  }
-
-  void editItem(Item item) async {
-    int result = await DbHelper.update(item);
-    if(result > 0){
-      updateListView();
-    }
+    ));
   }
 }
